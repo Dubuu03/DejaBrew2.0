@@ -21,7 +21,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="scrollable-content">
+<ion-content [fullscreen]="true">
   <!-- Coffee and Snacks Section -->
   <div class="coffee-container">
     <div class="content">
@@ -49,150 +49,146 @@
     <img src="assets/images/Banner1.png" alt="Banner Image">
   </div>
 
-  <!-- Best Sellers Label -->
+  <!-- Best Sellers Section -->
   <div class="product-label best-label">
     Best Sellers
   </div>
 
   <!-- Best Seller Product Slides -->
   <swiper-container [slidesPerView]="slidesPerView" [spaceBetween]="5" [loop]="false" [navigation]="false">
-    <swiper-slide *ngFor="let i of getSlideIndexes(bestSellerProducts,2); let index = index" [ngClass]="{
-    'first-slide': index === 0, 
-    'last-slide': index === getSlideIndexes(bestSellerProducts,2).length - 1
-  }">
+    <swiper-slide *ngFor="let i of getSlideIndexes(bestSellerProducts,2); let index = index"
+      [ngClass]="{'first-slide': index === 0, 'last-slide': index === getSlideIndexes(bestSellerProducts,2).length - 1}">
       <app-product-card [product]="bestSellerProducts[i]" *ngIf="bestSellerProducts[i]"></app-product-card>
       <app-product-card [product]="bestSellerProducts[i + 1]" *ngIf="bestSellerProducts[i + 1]"></app-product-card>
     </swiper-slide>
-
   </swiper-container>
 
-
-  <!-- Hot Drinks -->
+  <!-- Hot Drinks Section -->
   <div class="product-label hot-label">
     Brew-lliant Hot Drinks
-    <ion-button fill="clear" class="see-more-button" routerLink="/new-arrivals">
+    <ion-button fill="clear" class="see-more-button" routerLink="/hot-drinks">
       See More
     </ion-button>
   </div>
 
   <!-- Hot Product Slides -->
   <swiper-container [slidesPerView]="slidesPerView" [spaceBetween]="5" [loop]="false" [navigation]="false">
-    <swiper-slide *ngFor="let i of getSlideIndexes(hotProducts,2); let index = index" [ngClass]="{
-        'first-slide': index === 0, 
-        'last-slide': index === getSlideIndexes(hotProducts,2).length - 1
-      }">
+    <swiper-slide *ngFor="let i of getSlideIndexes(hotProducts,2); let index = index"
+      [ngClass]="{'first-slide': index === 0, 'last-slide': index === getSlideIndexes(hotProducts,2).length - 1}">
       <app-product-card [product]="hotProducts[i]" *ngIf="hotProducts[i]"></app-product-card>
       <app-product-card [product]="hotProducts[i + 1]" *ngIf="hotProducts[i + 1]"></app-product-card>
     </swiper-slide>
   </swiper-container>
 
-
-  <!-- Banner 2 -->
+  <!-- Second Banner -->
   <div class="image-banner">
     <img src="assets/images/Banner2.png" alt="Banner Image">
   </div>
 
-
-  <!-- Cold Drinks -->
+  <!-- Cold Drinks Section -->
   <div class="product-label cold-label">
     Deja-Brewze Cold Drinks
-    <ion-button fill="clear" class="see-more-button" routerLink="/new-arrivals">
+    <ion-button fill="clear" class="see-more-button" routerLink="/cold-drinks">
       See More
     </ion-button>
   </div>
 
   <!-- Cold Product Slides -->
   <swiper-container [slidesPerView]="slidesPerView" [spaceBetween]="5" [loop]="false" [navigation]="false">
-    <swiper-slide *ngFor="let i of getSlideIndexes(coldProducts, 2); let index = index" [ngClass]="{
-          'first-slide': index === 0, 
-          'last-slide': index === getSlideIndexes(coldProducts, 2).length - 1
-        }">
+    <swiper-slide *ngFor="let i of getSlideIndexes(coldProducts, 2); let index = index"
+      [ngClass]="{'first-slide': index === 0, 'last-slide': index === getSlideIndexes(coldProducts, 2).length - 1}">
       <app-product-card [product]="coldProducts[i]" *ngIf="coldProducts[i]"></app-product-card>
       <app-product-card [product]="coldProducts[i + 1]" *ngIf="coldProducts[i + 1]"></app-product-card>
     </swiper-slide>
   </swiper-container>
 
-  <!-- Non-Coffee -->
+  <!-- Non-Coffee Section -->
   <div class="product-label noncoffee-label">
     Refreshin' Rewind
-    <ion-button fill="clear" class="see-more-button" routerLink="/new-arrivals">
+    <ion-button fill="clear" class="see-more-button" routerLink="/non-coffee">
       See More
     </ion-button>
   </div>
 
   <!-- Non-Coffee Product Slides -->
+<ng-container *ngIf="nonCoffeeProducts && nonCoffeeProducts.length > 0">
   <swiper-container [slidesPerView]="slidesPerView" [spaceBetween]="5" [loop]="false" [navigation]="false">
-    <swiper-slide *ngFor="let i of getSlideIndexes(nonCoffeeProducts, 2); let index = index" [ngClass]="{
-          'first-slide': index === 0, 
-          'last-slide': index === getSlideIndexes(nonCoffeeProducts, 2).length - 1
-        }">
+    <swiper-slide *ngFor="let i of getSlideIndexes(nonCoffeeProducts, 2); let index = index"
+      [ngClass]="{'first-slide': index === 0, 'last-slide': index === getSlideIndexes(nonCoffeeProducts, 2).length - 1}">
+
       <app-product-card [product]="nonCoffeeProducts[i]" *ngIf="nonCoffeeProducts[i]"></app-product-card>
       <app-product-card [product]="nonCoffeeProducts[i + 1]" *ngIf="nonCoffeeProducts[i + 1]"></app-product-card>
+
     </swiper-slide>
   </swiper-container>
+</ng-container>
 
-  <!-- Banner 3 -->
+
+  <!-- Third Banner -->
   <div class="image-banner">
     <img src="assets/images/Banner3.png" alt="Banner Image">
   </div>
 
-  <!-- Pastry -->
+  <!-- Pastry Section -->
   <div class="product-label pastry-label">
     Flashback Bites
-    <ion-button fill="clear" class="see-more-button" routerLink="/new-arrivals">
+    <ion-button fill="clear" class="see-more-button" routerLink="/pastries">
       See More
     </ion-button>
   </div>
 
   <!-- Pastry Product Slides -->
+<ng-container *ngIf="pastryProducts && pastryProducts.length > 0">
   <swiper-container [slidesPerView]="slidesPerView" [spaceBetween]="5" [loop]="false" [navigation]="false">
-    <swiper-slide *ngFor="let i of getSlideIndexes(pastryProducts, 2); let index = index" [ngClass]="{
-          'first-slide': index === 0, 
-          'last-slide': index === getSlideIndexes(pastryProducts, 2).length - 1
-        }">
+    <swiper-slide *ngFor="let i of getSlideIndexes(pastryProducts, 2); let index = index"
+      [ngClass]="{'first-slide': index === 0, 'last-slide': index === getSlideIndexes(pastryProducts, 2).length - 1}">
+
       <app-product-card [product]="pastryProducts[i]" *ngIf="pastryProducts[i]"></app-product-card>
       <app-product-card [product]="pastryProducts[i + 1]" *ngIf="pastryProducts[i + 1]"></app-product-card>
+
     </swiper-slide>
-  </swiper-container> <br>
+  </swiper-container>
+</ng-container>
 
-
+  <!-- Footer Spacing -->
+  <div class="footer-spacing"></div>
 </ion-content>
 
-  <!-- Footer -->
-  <div class="navigation">
-    <ul>
-      <li class="list active">
-        <a>
-          <span class="footer-icon">
-            <ion-icon name="home"></ion-icon>
-          </span>
-          <span class="text">Home</span>
-        </a>
-      </li>
-      <li class="list">
-        <a (click)="goToFavorites()">
-          <span class="footer-icon">
-            <ion-icon name="heart"></ion-icon>
-          </span>
-          <span class="text">Favorites</span>
-        </a>
-      </li>
-      <li class="list">
-        <a (click)="goToNotifications()">
-          <span class="footer-icon">
-            <ion-icon name="notifications"></ion-icon>
-          </span>
-          <span class="text">Notifications</span>
-        </a>
-      </li>
-      <li class="list">
-        <a (click)="openProfileModal()">
-          <span class="footer-icon">
-            <ion-icon name="person"></ion-icon>
-          </span>
-          <span class="text">Profile</span>
-        </a>
-      </li>
-      <div class="indicator"></div>
-    </ul>
-  </div>
+<!-- Navigation Footer -->
+<nav class="navigation">
+  <ul>
+    <li class="list active">
+      <a>
+        <span class="footer-icon">
+          <ion-icon name="home"></ion-icon>
+        </span>
+        <span class="text">Home</span>
+      </a>
+    </li>
+    <li class="list">
+      <a (click)="goToFavorites()">
+        <span class="footer-icon">
+          <ion-icon name="heart"></ion-icon>
+        </span>
+        <span class="text">Favorites</span>
+      </a>
+    </li>
+    <li class="list">
+      <a (click)="goToNotifications()">
+        <span class="footer-icon">
+          <ion-icon name="notifications"></ion-icon>
+        </span>
+        <span class="text">Notifications</span>
+      </a>
+    </li>
+    <li class="list">
+      <a (click)="openProfileModal()">
+        <span class="footer-icon">
+          <ion-icon name="person"></ion-icon>
+        </span>
+        <span class="text">Profile</span>
+      </a>
+    </li>
+    <div class="indicator"></div>
+  </ul>
+</nav>

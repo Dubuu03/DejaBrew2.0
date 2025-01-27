@@ -17,6 +17,20 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Password is required'],
         minlength: 6
     },
+    favorites: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product' 
+    }],
+    cart: [{
+        productId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Product' 
+        },
+        quantity: {
+            type: Number,
+            required: true
+        }
+    }],
     accessLevel: {
         type: String,
         enum: ['user', 'admin', 'moderator'],

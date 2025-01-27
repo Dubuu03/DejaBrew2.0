@@ -1,8 +1,11 @@
 const express = require('express');
 const cors = require('cors');
-const userRoutes = require('./routes/userRoutes');
 const connectDB = require('./config/db');
 require('dotenv').config();
+const userRoutes = require('./routes/authRoutes');
+const productRoutes = require('./routes/productRoutes');
+const ratingRoutes = require('./routes/ratingRoutes');
+
 const app = express();
 
 const PORT = process.env.PORT || 5000;
@@ -21,9 +24,10 @@ app.get('/', (req, res) => {
   res.send("Hello, world!");
 });
 
-// Use user routes
+// Use routes
 app.use('/', userRoutes);
-
+app.use('/api', productRoutes);
+app.use('/api', ratingRoutes);
 
 // MongoDB Connection
 connectDB();

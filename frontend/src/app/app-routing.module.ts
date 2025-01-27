@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '', 
-    redirectTo: '/landing',
+    redirectTo: '/home',
     pathMatch: 'full'
   },
   {
@@ -55,6 +55,7 @@ const routes: Routes = [
     path: 'payment-success',
     loadChildren: () => import('./payment-success/payment-success.module').then( m => m.PaymentSuccessPageModule)
   },
+  
 ];
 
 @NgModule({
