@@ -1,0 +1,95 @@
+<ion-content>
+  <!-- Chevron Back Button and Title -->
+  <div class="top-section">
+    <ion-buttons slot="start">
+      <!-- Chevron Back Button -->
+      <ion-button fill="clear" (click)="goBack()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title size="large" class="title">Details</ion-title>
+    <ion-buttons slot="end" (click)="goToCart()">
+      <ion-button fill="clear">
+        <ion-icon class="cart" slot="icon-only" name="cart-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </div>
+
+  <div class="product-container" *ngIf="product">
+
+    <!-- Product Image and Rating Section -->
+    <div class="product-image-rating-container">
+      <!-- Product Image -->
+      <div class="image-container">
+        <img [src]="product.image" [alt]="product.name" />
+      </div>
+
+      <!-- Rating Section -->
+      <div class="rating-container">
+        <div class="stars">
+          <ion-icon name="star" color="warning" *ngFor="let star of [1, 2, 3, 4, 5]"></ion-icon>
+        </div>
+        <p class="description">{{ product.description }}</p>
+      </div>
+
+    </div>
+
+    <!--  Product Info Section -->
+    <div class="product-info-wrapper">
+      <!-- Product Info Section -->
+      <div class="product-info">
+        <div class="name-price">
+          <h1>{{ product.name }}</h1>
+          <span class="price">₱ {{ product.price.toFixed(2) }}</span>
+        </div>
+        <p class="type">{{ product.type }}</p>
+      </div>
+
+      <!-- Memory Options -->
+      <div class="memory-section">
+        <p class="memory-title">What memory will you savor today?</p>
+        <div class="memory-options">
+          <div class="memory-option" [class.selected]="selectedMemory === 'Nostalgia'"
+            (click)="selectMemory('Nostalgia')">
+            <ion-icon name="cafe-outline"></ion-icon>
+          </div>
+          <div class="memory-option" [class.selected]="selectedMemory === 'Ecstatic'" (click)="selectMemory('Ecstatic')">
+            <ion-icon name="cafe-outline"></ion-icon>
+          </div>
+          <div class="memory-option" [class.selected]="selectedMemory === 'Euphoric'" (click)="selectMemory('Euphoric')">
+            <ion-icon name="cafe-outline"></ion-icon>
+          </div>
+        </div>
+      
+        <!-- Memory Names and Sizes (outside the memory option div) -->
+        <div class="memory-names">
+          <span class="m1">Nostalgia</span>
+          <span class="m2">Ecstatic</span>
+          <span class="m3">Euphoric</span>
+        </div>
+      
+        <div class="memory-size-options">
+          <div class="size-option">Small</div>
+          <div class="size-option">Medium</div>
+          <div class="size-option">Large</div>
+        </div>
+      </div>
+
+      <!-- Quantity and Add to Cart -->
+      <div class="action-section">
+        <div class="quantity-controls">
+          <ion-button fill="clear" (click)="decrementQuantity()">
+            <ion-icon name="remove-outline"></ion-icon>
+          </ion-button>
+          <span>{{ quantity }}</span>
+          <ion-button fill="clear" (click)="incrementQuantity()">
+            <ion-icon name="add-outline"></ion-icon>
+          </ion-button>
+        </div>
+        <ion-button expand="block" class="add-to-cart" (click)="addToCart()" class="view-menu">
+          Add to Cart
+        </ion-button>
+      </div>
+    </div> <!-- End of product-info-wrapper div -->
+  </div>
+</ion-content>

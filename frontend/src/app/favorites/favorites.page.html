@@ -1,0 +1,104 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="combined-toolbar">
+    <!-- Logo and Title -->
+    <div class="top-section">
+      <ion-buttons slot="start">
+        <ion-img src="assets/images/Logo.png" alt="Logo" class="logo"></ion-img>
+      </ion-buttons>
+      <ion-title size="large" class="title">Favorites</ion-title>
+      <ion-buttons slot="end" (click)="goToCart()">
+        <ion-button fill="clear">
+          <ion-icon class="cart" slot="icon-only" name="cart-outline" ></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+<div *ngIf="favorites.length > 0" class="page-title-container">
+  <h1 class="page-title">My Favorites</h1>
+  <span class="clear-all" (click)="clearAll()">Clear All</span>
+</div>
+
+  <!-- Check if favorites is empty or null -->
+  <div *ngIf="favorites.length === 0" class="default-items">
+    <div class="default-item">
+      <img src="assets/images/emptyfavorites.png" alt="Empty Favorites" class="empty-image">
+      <h2 class="empty-title">It’s empty here</h2>
+      <p class="empty-subtitle">Haven’t pick a favorite yet?
+      Check our menu to feed your cravings!</p>
+
+    <ion-button class="view-menu" expand="block" (click)="goToHome()">
+      <span>Add Favorites</span>
+    </ion-button>
+
+    </div>
+  </div>
+
+  <!-- Display favorites if not empty -->
+  <ion-list *ngIf="favorites.length > 0" lines="none">
+    <ion-item *ngFor="let item of favorites" class="favorite-item">
+      <div class="item-content">
+        <ion-thumbnail slot="start">
+          <img [src]="item.image" [alt]="item.name">
+        </ion-thumbnail>
+        <div class="item-details">
+          <h2>{{item.name}}</h2>
+          <p class="category">{{item.category}}</p>
+          <div class="rating">
+            <ion-icon name="star"></ion-icon>
+            <span>{{ item.rating | number:'1.1-1' }}</span>
+          </div>
+        </div>
+        <ion-button fill="clear" (click)="toggleFavorite(item)" class="favorite-button">
+          <ion-icon [name]="item.isFavorite ? 'heart' : 'heart-outline'" [color]="item.isFavorite ? 'danger' : 'medium'">
+          </ion-icon>
+        </ion-button>
+      </div>
+    </ion-item>
+  </ion-list>
+
+  <br><br><br>
+</ion-content>
+
+
+<!-- Footer -->
+<div class="navigation" id="footer">
+  <ul>
+    <li class="list " (click)="goToHome()">
+      <a routerLink="/home">
+        <span class="footer-icon">
+          <ion-icon name="home"></ion-icon>
+        </span>
+        <span class="text">Home</span>
+      </a>
+    </li>
+    <li class="list active">
+      <a routerLink="/favorites">
+        <span class="footer-icon">
+          <ion-icon name="heart"></ion-icon>
+        </span>
+        <span class="text">Favorites</span>
+      </a>
+    </li>
+    <li class="list " click="goToNotifications()">
+      <a routerLink="/notifications">
+        <span class="footer-icon">
+          <ion-icon name="notifications"></ion-icon>
+        </span>
+        <span class="text">Notifications</span>
+      </a>
+    </li>
+    <li class="list">
+      <a (click)="openProfileModal()">
+        <span class="footer-icon">
+          <ion-icon name="person"></ion-icon>
+        </span>
+        <span class="text">Profile</span>
+      </a>
+    </li>
+    <div class="indicator"></div>
+  </ul>
+</div>

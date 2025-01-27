@@ -1,0 +1,74 @@
+<ion-content class="ion-padding">
+  <app-back-button path="/onboarding-2"></app-back-button>
+
+  <div class="ion-text-center">
+    <p class="text-head">
+      Missed Us?<br>
+      <strong>Sign in to continue</strong>
+    </p>
+
+    <h2>
+      <span class="title">DejaBrew</span>
+      <img src="assets/images/CoffeeBean.png" alt="Logo" class="h2-image" />
+    </h2>
+
+    <ion-card class="card-padding">
+      <!-- Input Fields -->
+      <div class="input-container">
+        <label for="username">Username:</label>
+        <input id="username" type="text" placeholder="Enter your username" class="custom-input username-input"
+          [(ngModel)]="username" name="username" />
+      </div>
+
+      <div class="input-container">
+        <label for="password">Password:</label>
+        <input id="password" [type]="showPassword ? 'text' : 'password'" placeholder="Enter your password"
+          class="custom-input password-input" [(ngModel)]="password" name="password" />
+        <span class="eye-icon" (click)="togglePasswordVisibility()">
+          <ion-icon [name]="showPassword ? 'eye' : 'eye-off'" size="medium"></ion-icon>
+        </span>
+      </div>
+
+      <p id="message"></p>
+
+      <div class="forgot-password">
+        <a href="#" class="forgot-password">Forgot Password?</a>
+      </div>
+
+      <!-- Custom Button Component -->
+      <app-custom-button text="Sign In" customClass="signInButton" (click)="proceed()"></app-custom-button>
+
+      <div class="or-section">
+        <p>or</p>
+      </div>
+
+      <div class="social-icons">
+        <ion-icon id="open-modal" name="logo-facebook" (click)="openModal('facebook.com')"></ion-icon>
+        <ion-icon name="logo-instagram" (click)="openModal('instagram.com')"></ion-icon>
+        <ion-icon name="logo-google" (click)="openModal('google.com')"></ion-icon>
+      </div>
+    </ion-card>
+
+    <p class="signUp">Don't have an account? <a routerLink="/signup">Register.</a></p>
+  </div>
+
+  <!-- Modal -->
+  <div *ngIf="isModalVisible" class="modal-container">
+    <div class="modal-content">
+      <div class="modal-logo">
+        <ion-icon [name]="platformLogo" [style.color]="platformColor" class="logomodal"></ion-icon>
+      </div>
+
+      <h2 class="modal-title">DejaBrew wants to use "{{ platform }}" to sign in</h2>
+      <p class="modal-text">
+        This allows the app and website to share information about you.
+      </p>
+
+      <div class="modal-buttons">
+        <ion-button expand="block" fill="outline" (click)="dismissModal()">Cancel</ion-button>
+        <app-custom-button text="Continue" customClass="signInButton" (click)="proceed()"></app-custom-button>
+      </div>
+    </div>
+  </div>
+
+</ion-content>

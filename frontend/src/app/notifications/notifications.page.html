@@ -1,0 +1,96 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="combined-toolbar">
+    <!-- Logo and Title -->
+    <div class="top-section">
+      <ion-buttons slot="start">
+        <ion-img src="assets/images/Logo.png" alt="Logo" class="logo"></ion-img>
+      </ion-buttons>
+      <ion-title size="large" class="title">Notifications</ion-title>
+      <ion-buttons slot="end">
+        <ion-button fill="clear" (click)="goToCart()">
+          <ion-icon class="cart" slot="icon-only" name="cart-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="notification-bg">
+  
+  <!-- Today's Notifications -->
+  <h2 class="section-title">Today</h2>
+  <ion-list>
+    <ion-item *ngFor="let notification of notifications.today" class="notification-item">
+      <div class="notification-container">
+        <div class="icon-container">
+          <ion-icon [name]="notification.icon"></ion-icon>
+        </div>
+        <div class="content-container">
+          <h3>{{notification.title}}</h3>
+          <p>{{notification.message}}</p>
+        </div>
+      </div>
+    </ion-item>
+  </ion-list>
+  
+  <!-- Yesterday's Notifications -->
+  <h2 class="section-title">Yesterday</h2>
+  <ion-list>
+    <ion-item *ngFor="let notification of notifications.yesterday" class="notification-item">
+      <div class="notification-container">
+        <div class="icon-container">
+          <ion-icon [name]="notification.icon"></ion-icon>
+        </div>
+        <div class="content-container">
+          <h3>{{notification.title}}</h3>
+          <p>{{notification.message}}</p>
+        </div>
+      </div>
+    </ion-item>
+    <br><br><br><br>
+  </ion-list>
+
+  
+
+</ion-content>
+
+  <!-- Footer -->
+  <div class="navigation">
+    <ul>
+      <li class="list " (click)="goToHome()">
+        <a routerLink="/home">
+          <span class="footer-icon">
+            <ion-icon name="home"></ion-icon>
+          </span>
+          <span class="text">Home</span>
+        </a>
+      </li>
+      <li class="list" (click)="goToFavorites()">
+        <a routerLink="/favorites">
+          <span class="footer-icon">
+            <ion-icon name="heart"></ion-icon>
+          </span>
+          <span class="text">Favorites</span>
+        </a>
+      </li>
+      <li class="list active">
+        <a routerLink="/notifications">
+          <span class="footer-icon">
+            <ion-icon name="notifications"></ion-icon>
+          </span>
+          <span class="text">Notifications</span>
+        </a>
+      </li>
+      <li class="list">
+        <a (click)="openProfileModal()">
+          <span class="footer-icon">
+            <ion-icon name="person"></ion-icon>
+          </span>
+          <span class="text">Profile</span>
+        </a>
+      </li>
+      <div class="indicator"></div>
+    </ul>
+  </div>
+
+  <!-- <app-footer></app-footer> -->

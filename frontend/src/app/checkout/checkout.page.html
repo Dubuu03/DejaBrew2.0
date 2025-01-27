@@ -1,0 +1,141 @@
+<ion-header>
+  <ion-toolbar class="combined-toolbar">
+    <!-- Chevron Back Button and Title -->
+    <div class="top-section">
+      <ion-buttons slot="start">
+        <!-- Chevron Back Button -->
+        <ion-button fill="clear" (click)="goBack()">
+          <ion-icon name="chevron-back-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title size="large" class="title">Checkout</ion-title>
+      <ion-buttons slot="end">
+        <ion-button fill="clear">
+          <ion-icon class="cart" slot="icon-only" name="cart-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Delivery Address Section -->
+  <div class="section-title">Delivery address</div>
+  <ion-card class="address-card" (click)="selectAddress()">
+    <ion-card-content>
+      <div class="address-content">
+        <ion-icon name="location" class="location-icon"></ion-icon>
+        <div class="address-text">
+          <span>27 Pagudayan St</span>
+          <span class="subtext">Tuguegarao</span>
+        </div>
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </div>
+
+        <!-- Delivery Instructions -->
+        <div class="delivery-container">
+          <div class="delivery-label">Delivery Instructions</div>
+          <ion-item class="delivery-instructions">
+            <ion-input placeholder="Notes to rider" [(ngModel)]="deliveryInstructions"></ion-input>
+          </ion-item>
+        </div>
+
+    </ion-card-content>
+  </ion-card>
+
+
+  <!-- Delivery Options -->
+  <div class="section-title">Delivery options</div>
+  <ion-card class="options-card">
+    <ion-card-content>
+      <ion-radio-group [(ngModel)]="selectedDeliveryOption">
+        <div class="option-item" (click)="selectDeliveryOption('standard')">
+          <ion-radio value="standard"></ion-radio>
+          <ion-label>Standard</ion-label>
+        </div>
+
+        <div class="option-item" (click)="selectDeliveryOption('priority')">
+          <ion-radio value="priority"></ion-radio>
+          <ion-label>Priority</ion-label>
+          <span class="price">+₱35.00</span>
+        </div>
+
+        <div class="option-item" (click)="selectDeliveryOption('scheduled')">
+          <ion-radio value="scheduled"></ion-radio>
+          <ion-label>Scheduled</ion-label>
+        </div>
+      </ion-radio-group>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Payment Method -->
+  <div class="section-title">Payment method</div>
+
+  <ion-card class="options-card">
+    <ion-card-content>
+    <ion-radio-group [(ngModel)]="selectedPaymentMethod">
+      <div class="option-item" (click)="selectPaymentMethod('cod')">
+        <ion-radio value="cod"></ion-radio>
+        <img src="assets/images/payment/cod.png" alt="COD" class="payment-icon">
+        <ion-label>Cash on Delivery</ion-label>
+      </div>
+    
+      <div class="option-item" (click)="selectPaymentMethod('paymaya')">
+        <ion-radio value="paymaya"></ion-radio>
+        <img src="assets/images/payment/paymaya.jpg" alt="PayMaya" class="payment-icon">
+        <ion-label>PayMaya</ion-label>
+      </div>
+    
+      <div class="option-item" (click)="selectPaymentMethod('gcash')">
+        <ion-radio value="gcash"></ion-radio>
+        <img src="assets/images/payment/gcash.png" alt="GCash" class="payment-icon">
+        <ion-label>GCash</ion-label>
+      </div>
+    </ion-radio-group>
+
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Order Summary -->
+  <div class="section-title">Order summary</div>
+  <ion-card class="summary-card">
+    <ion-card-content>
+      <div class="summary-item" *ngFor="let item of cartItems">
+        <span>{{ item.name }}</span>
+        <span>₱{{ (item.price * item.quantity).toFixed(2) }}</span>
+      </div>
+      <div class="summary-item">
+        <span>Subtotal</span>
+        <span>₱{{ subtotal.toFixed(2) }}</span>
+      </div>
+      <div class="summary-item">
+        <span>Delivery Fee</span>
+        <span>₱{{ deliveryFee.toFixed(2) }}</span>
+      </div>
+      <div class="summary-item">
+        <span>Tax</span>
+        <span>₱{{ tax.toFixed(2) }}</span>
+      </div>
+      <div class="summary-item total">
+        <span>Total (incl. fees and tax)</span>
+        <span>₱{{ total.toFixed(2) }}</span>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  
+</ion-content>
+
+<ion-footer *ngIf="cartItems.length > 0">
+  <ion-toolbar>
+    <div class="footer-content">
+      <div class="footer-total">
+        <span class="label">Total Amount (incl. fees and tax)</span>
+        <span class="amount">₱{{ total.toFixed(2) }}</span>
+      </div>
+      <ion-button expand="block" (click)="checkout()">
+        Checkout
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

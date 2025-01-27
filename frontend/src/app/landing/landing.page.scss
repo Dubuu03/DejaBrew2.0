@@ -1,0 +1,18 @@
+ion-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.centered-img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 250px;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

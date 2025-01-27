@@ -1,0 +1,184 @@
+.background-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    overflow: hidden;
+    width: 100%;
+    background: var(--background);
+    --background: url('/assets/images/homebg.png') no-repeat center center / cover;
+}
+
+.content-overlay {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    color: white;
+    width: 100%;
+    height: 100%;
+    padding: 15px;
+}
+
+.title-container {
+    margin-top: auto;
+}
+
+h1 {
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 1.1;
+    color: white;
+}
+
+.highlight {
+    font-size: 64px;
+    font-family: "Bacasime Antique", serif;
+    font-style: bold;
+    font-weight: 400;
+}
+
+.description {
+    font-size: 12px;
+    color: #ccc;
+    margin: 0;
+    font-weight: lighter;
+}
+
+.second-description {
+    margin-bottom: 20px;
+}
+
+.button-container {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+
+    /* Small desktops or large tablets */
+    h1 {
+        font-size: 48px;
+    }
+
+    .highlight {
+        font-size: 72px;
+    }
+
+    .description {
+        font-size: 14px;
+    }
+
+    .content-overlay {
+        padding: 12px;
+    }
+
+}
+
+@media (max-width: 1024px) {
+
+    /* Tablets */
+    h1 {
+        font-size: 52px;
+    }
+
+    .highlight {
+        font-size:92px;
+    }
+
+    .description {
+        font-size: 16px;
+    }
+
+    .content-overlay {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    /* Phones in landscape */
+    h1 {
+        font-size: 30px;
+    }
+
+    .highlight {
+        font-size: 80px;
+    }
+
+    .description {
+        font-size: 16px;
+    }
+
+    .content-overlay {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 600px) {
+
+    /* Small phones in landscape */
+    h1 {
+        font-size: 32px;
+    }
+
+    .highlight {
+        font-size: 72px;
+    }
+
+    .description {
+        font-size: 12px;
+    }
+
+    .content-overlay {
+        padding: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    /* Phones in portrait */
+    h1 {
+        font-size: 20px;
+    }
+
+    .highlight {
+        font-size: 64px;
+    }
+
+    .description {
+        font-size: 13px;
+    }
+
+    .content-overlay {
+        padding: 14px;
+    }
+}
+
+@media (max-width: 360px) {
+
+    /* Extra small phones in portrait */
+    h1 {
+        font-size: 20px;
+    }
+
+    .highlight {
+        font-size: 56px;
+    }
+
+    .description {
+        font-size: 12px;
+    }
+
+    .content-overlay {
+        padding: 8px;
+    }
+}

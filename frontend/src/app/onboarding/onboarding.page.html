@@ -1,0 +1,56 @@
+<ion-content>
+  <!-- Swiper Container -->
+  <swiper-container #swiperContainer [spaceBetween]="50" [slidesPerView]="1" [loop]="false"
+    [pagination]="{ clickable: true }" (swiper)="onSwiper($event)" (slideChange)="onSlideChange($event)"
+    [effect]="'slide'">
+
+    <!-- Slide 1 -->
+    <swiper-slide>
+      <div class="slide-content">
+        <div class="image-container">
+          <div class="overlay">
+            <img src="assets/images/Logo.png" alt="DejaBrew Logo" class="logo" />
+            <p class="top">Welcome to</p>
+            <h1>DejaBrew</h1>
+            <p class="bot">Have you been here before?</p>
+          </div>
+        </div>
+      </div>
+    </swiper-slide>
+
+    <!-- Slide 2 -->
+    <swiper-slide>
+      <div class="slide-content">
+        <div class="image-container">
+          <div class="overlay">
+            <p class="top">Taste the</p>
+            <h1>Familiarity</h1>
+            <p class="bot">From the first sip to the last bite, our flavors evoke comforting memories with a twist of
+              something new—like a sweet sense of déjà vu.</p>
+          </div>
+        </div>
+      </div>
+    </swiper-slide>
+
+    <!-- Slide 3 -->
+    <swiper-slide>
+      <div class="slide-content">
+        <div class="image-container">
+          <div class="overlay last-slide">
+            <p class="top">Sip, Savor, and</p>
+            <h1>Repeat</h1>
+            <p class="bot last-bot">Whether it’s your go-to brew or a pastry that feels like home, every visit is a
+              delicious flashback you won’t forget.</p>
+          </div>
+        </div>
+      </div>
+    </swiper-slide>
+  </swiper-container>
+
+  <!-- Get Started Button Outside the Swiper -->
+  <div class="button-container">
+    <a routerLink="/onboarding-2">
+      <app-custom-button text="Get Started" customClass="signUpButton"></app-custom-button>
+    </a>
+  </div>
+</ion-content>

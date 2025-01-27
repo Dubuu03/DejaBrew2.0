@@ -1,0 +1,22 @@
+<ion-content class="profile-modal" >
+  <div class="modal-header">
+    <ion-button fill="clear" (click)="dismiss()">
+      <ion-icon slot="icon-only" name="chevron-back"></ion-icon>
+    </ion-button>
+    <h2>Profile</h2>
+  </div>
+
+  <div class="profile-info">
+    <ion-avatar>
+      <img src="assets/images/download.png" alt="Profile Picture">
+    </ion-avatar>
+    <h3>Roronoa Zoro</h3>
+  </div>
+
+  <ion-list lines="none">
+    <ion-item *ngFor="let item of menuItems" (click)="navigateTo(item.route)" detail="true">
+      <ion-icon slot="start" [name]="item.icon"></ion-icon>
+      <ion-label>{{ item.text }}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

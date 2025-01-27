@@ -1,0 +1,29 @@
+<div class="product-container">
+  <div class="product-card" (click)="goToProductDetail(product)">
+    <div class="product-overlay">
+      <!-- Row 1, Column 1: Rating and Title -->
+      <div class="product-content">
+        <div class="rating-container" aria-label="Product rating">
+          <img [src]="'assets/images/star.png'" class="rating-icon" alt="Rating star icon" />
+          <div class="rating-value">{{product.rating}}</div>
+        </div>
+        <h2 class="product-title">{{product.title}}</h2>
+      </div>
+
+      <!-- Product Image -->
+      <img [src]="product.productImageUrl" class="product-image" [alt]="product.title"  />
+    </div>
+
+    <!--  Price -->
+    <div class="product-price-container">
+      <div class="product-price">
+        ₱ {{product.price}}
+      </div>
+
+      <!-- Favorite Button -->
+      <span (click)="toggleFavorite(product, $event)" [ngClass]="product.favorite ? 'heart-filled' : 'heart-empty'" class="favorite-icon">
+        <ion-icon name="heart"></ion-icon>
+      </span>
+    </div>
+  </div>
+</div>

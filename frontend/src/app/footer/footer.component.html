@@ -1,0 +1,39 @@
+<div class="navigation">
+  <ul>
+    <li class="list" [class.active]="activeIndex === 0" (click)="goToPage(0, '/home')">
+      <a routerLink="/home">
+        <span class="footer-icon">
+          <ion-icon name="home"></ion-icon>
+        </span>
+        <span class="text">Home</span>
+      </a>
+    </li>
+    <li class="list" [class.active]="activeIndex === 1" (click)="goToPage(1, '/favorites')">
+      <a routerLink="/favorites">
+        <span class="footer-icon">
+          <ion-icon name="heart"></ion-icon>
+        </span>
+        <span class="text">Favorites</span>
+      </a>
+    </li>
+    <li class="list" [class.active]="activeIndex === 2" (click)="goToPage(2, '/notifications')">
+      <a routerLink="/notifications">
+        <span class="footer-icon">
+          <ion-icon name="notifications"></ion-icon>
+        </span>
+        <span class="text">Notifications</span>
+      </a>
+    </li>
+    <li class="list" [class.active]="activeIndex === 3" (click)="goToPage(3, '/profile')">
+      <a routerLink="/profile">
+        <span class="footer-icon">
+          <ion-icon name="person"></ion-icon>
+        </span>
+        <span class="text">Profile</span>
+      </a>
+    </li>
+
+    <!-- Active Indicator -->
+    <div class="indicator" [style.left.px]="calculateIndicatorPosition()"></div>
+  </ul>
+</div>
