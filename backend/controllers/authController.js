@@ -58,11 +58,15 @@ const signup = async (req, res) => {
     }
 };
 
-// Login function
 const login = (req, res) => {
     const { email, password } = req.body;
 
-    User.findOne({ email })
+    // Sanitize the email (convert to lowercase and trim spaces)
+    const sanitizedEmail = email.toLowerCase().trim();
+
+    console.log('Searching for user with email:', sanitizedEmail);  // Log email to debug
+
+    User.findOne({ email: sanitizedEmail })
         .then((user) => {
             if (!user) {
                 // Email does not exist
@@ -81,7 +85,16 @@ const login = (req, res) => {
                     return res.status(401).json({ message: 'Incorrect password.' });
                 }
 
-                res.status(200).json({ message: 'Login successful', user });
+                // Save user in the session
+                req.session.user = {
+                    id: user._id,
+                    username: user.username,
+                    email: user.email,
+                };
+
+                console.log('Session after login:', req.session.user);
+
+                res.status(200).json({ message: 'Login successful', user: req.session.user });
             });
         })
         .catch((error) => {
@@ -90,5 +103,14 @@ const login = (req, res) => {
         });
 };
 
+const getUsername = (req, res) => {
+    // Check if user is logged in by verifying session
+    if (!req.session || !req.session.user) {
+        return res.status(401).json({ message: 'Not authenticated' });
+    }
 
-module.exports = { signup, login, };
+    // Return username from session
+    res.status(200).json({ username: req.session.user.username });
+};
+
+module.exports = { signup, login, getUsername };

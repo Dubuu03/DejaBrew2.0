@@ -1,7 +1,12 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../services/authService.service';  // Import the AuthService
+import { AuthService } from '../services/authService.service';
 import { Router } from '@angular/router';
-import { ToastController, LoadingController } from '@ionic/angular';  // Import ToastController and LoadingController
+import { ToastController, LoadingController } from '@ionic/angular';
+
+interface LoginCredentials {
+  email: string;
+  password: string;
+}
 
 @Component({
   selector: 'app-login',
@@ -9,104 +14,132 @@ import { ToastController, LoadingController } from '@ionic/angular';  // Import 
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage {
-  username: string = ''; 
-  password: string = '';
+  credentials: LoginCredentials = {
+    email: '',
+    password: ''
+  };
   showPassword: boolean = false;
   isModalVisible: boolean = false;
   platform: string = '';
   platformLogo: string = '';
   platformColor: string = '';
-  isLoading: boolean = false;  
+  isLoading: boolean = false;
+  isError: boolean = false;
+  message: string = '';
+  emailError: string = ''; // Variable to hold email error message
+  passwordError: string = ''; // Variable to hold password error message
 
   constructor(
-    private authService: AuthService, 
-    private router: Router, 
-    private toastController: ToastController,  
+    private authService: AuthService,
+    private router: Router,
+    private toastController: ToastController,
     private loadingController: LoadingController
-  ) {}
+  ) {
+    // Check if already logged in
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate(['/home']);
+    }
+  }
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
 
-  // Function to show toast messages
-  async showToast(message: string, color: string) {
+  private async showToast(message: string, color: string = 'primary') {
     const toast = await this.toastController.create({
-      message: message,
-      duration: 500,
-      color: color,
-      position: 'bottom', 
-      // cssClass: 'toast-custom'
+      message,
+      duration: 2000,
+      color,
+      position: 'bottom',
+      buttons: [
+        {
+          icon: 'close',
+          role: 'cancel'
+        }
+      ]
     });
-    toast.present();
+    await toast.present();
   }
 
-  async presentLoader() {
-    this.isLoading = true;
+  private async presentLoader() {
     const loading = await this.loadingController.create({
       message: 'Please wait...',
-      spinner: 'circles', 
+      spinner: 'circles',
+      backdropDismiss: false
     });
     await loading.present();
-    return loading;  
+    return loading;
   }
 
-  proceed() {
-    if (this.username && this.password) {
-      // object with the login details 
-      const userDetails = { email: this.username, password: this.password };
+  private validateInput(): boolean {
+    let valid = true;
 
-      console.log('Entered Username:', this.username);
-      console.log('Entered Password:', this.password);
+    // Reset error messages
+    this.emailError = '';
+    this.passwordError = '';
 
-
-      this.presentLoader().then((loading) => {
-
-      this.authService.login(userDetails).subscribe(
-        (response: any) => { 
-          if (response && response.message === 'Login successful') {
-            console.log('Login successful:', response);
-
-            this.showToast('Login successful!', 'success');
-            window.location.href = '/home';  
-          } else {
-            // Handle invalid login case
-            console.error('Login failed:', response);
-            this.showToast('Invalid username or password', 'danger');
-          }
-          loading.dismiss();  
-        },
-        (error) => {
-          console.error('Login failed:', error);
-
-          if (error.status === 401) {
-            this.showToast('Incorrect password. Please try again.', 'danger');
-          } else if (error.status === 404) {
-            this.showToast('Email not found. Please check your email.', 'danger');
-          } 
-          else {
-            this.showToast('An error occurred. Please try again.', 'danger');
-          }
-
-          loading.dismiss();  
-        }
-      );
-
-      });
-    } else {
-      console.error('Username and password are required');
-      this.showToast('Username and password are required', 'danger');
+    // Validate email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!this.credentials.email) {
+      this.emailError = 'Email is required';
+      valid = false;
+    } else if (!emailRegex.test(this.credentials.email)) {
+      this.emailError = 'Please enter a valid email address';
+      valid = false;
     }
+
+    // Validate password
+    if (!this.credentials.password) {
+      this.passwordError = 'Password is required';
+      valid = false;
+    }
+
+    return valid;
   }
 
-  // Show modal for social login
+async proceed() {
+  // Reset error messages
+  this.emailError = '';
+  this.passwordError = '';
+
+  if (!this.validateInput()) return;
+
+  const loader = await this.presentLoader();
+
+  try {
+    const response = await this.authService.login(this.credentials).toPromise();
+
+    if (response && response.user) {
+      await this.showToast('Login successful!', 'success');
+      window.location.href = '/home'; // Force page reload to ensure fresh state
+    } else {
+      await this.showToast('Login failed. Please try again.', 'danger');
+    }
+  } catch (error: any) {
+    console.error('Login error:', error);
+
+    let errorMessage = 'An error occurred. Please try again.';
+
+    if (error.status === 401) {
+      this.passwordError = 'Incorrect password. Please try again.';  // Set password error
+    } else if (error.status === 404) {
+      this.emailError = 'Email not found. Please check your email.';  // Set email error
+    } else if (error.status === 429) {
+      errorMessage = 'Too many attempts. Please try again later.';
+      await this.showToast(errorMessage, 'danger');
+    }
+  } finally {
+    await loader.dismiss();
+  }
+}
+
+
   openModal(platform: string) {
     this.platform = platform;
     this.isModalVisible = true;
     this.setModalDetails(platform);
   }
 
-  // Set details for modal based on selected platform
   setModalDetails(platform: string) {
     switch (platform) {
       case 'facebook.com':
@@ -127,8 +160,14 @@ export class LoginPage {
     }
   }
 
-  // Dismiss the modal
   dismissModal() {
     this.isModalVisible = false;
+  }
+
+  // Handle social login functionality
+  async socialLogin(platform: string) {
+    // Implement social login logic here if needed
+    await this.showToast(`Social login with ${platform} is not implemented yet.`, 'warning');
+    this.dismissModal();
   }
 }

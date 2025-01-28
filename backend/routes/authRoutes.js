@@ -15,5 +15,6 @@ router.get('/users', (req, res) => {
 
 router.post('/signup', userController.signup);
 router.post('/login', userController.login);
+router.get('/api/get-username', userController.getUsername);
 
 module.exports = router;

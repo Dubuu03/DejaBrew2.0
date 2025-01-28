@@ -1,3 +1,9 @@
+.error-message{
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    margin-bottom: 0;
+}
 ion-content {
     display: flex;
     justify-content: center;
@@ -76,10 +82,9 @@ a {
 
 .eye-icon {
     position: absolute;
-    top: 70%;
+    margin-top: 7%;
     right: 15px;
     cursor: pointer;
-    transform: translateY(-50%);
     z-index: 5;
 
     ion-icon {
@@ -87,6 +92,7 @@ a {
         color: #666;
         user-select: none;
     }
+
 }
 
 .text-head {

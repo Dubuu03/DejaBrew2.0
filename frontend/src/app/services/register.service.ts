@@ -7,7 +7,7 @@ import { Observable, throwError } from 'rxjs';
   providedIn: 'root',
 })
 export class RegisterService {
-  private apiUrl = 'http://localhost:8100/api/signup'; // Update with your API URL
+  private apiUrl = 'http://localhost:5000/api/signup'; // Update with your API URL
 
   constructor(private http: HttpClient) {}
 

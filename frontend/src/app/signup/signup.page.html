@@ -3,8 +3,8 @@
 
   <div class="ion-text-center">
     <p class="text-head">
-      Missed Us?<br>
-      <strong>Sign in to continue</strong>
+      Welcome!<br>
+      <strong>Create your account</strong>
     </p>
 
     <h2>
@@ -17,35 +17,48 @@
       <div class="input-container">
         <label for="username">Username:</label>
         <input id="username" [(ngModel)]="username" type="text" placeholder="Enter your username"
-          class="custom-input username-input" />
+          class="custom-input username-input" required />
+        <div *ngIf="errorMessages.username" class="error-message">
+          {{ errorMessages.username }}
+        </div>
       </div>
 
       <div class="input-container">
         <label for="email">Email:</label>
         <input id="email" [(ngModel)]="email" type="email" placeholder="Enter your email"
-          class="custom-input username-input" />
+          class="custom-input username-input" required />
+        <div *ngIf="errorMessages.email" class="error-message">
+          {{ errorMessages.email }}
+        </div>
       </div>
 
       <div class="input-container">
         <label for="password">Password:</label>
         <input id="password" [(ngModel)]="password" [type]="showPassword ? 'text' : 'password'"
-          placeholder="Enter your password" class="custom-input password-input" />
+          placeholder="Enter your password" class="custom-input password-input" required />
         <span class="eye-icon" (click)="togglePasswordVisibility('password')">
           <ion-icon [name]="showPassword ? 'eye' : 'eye-off'" size="medium"></ion-icon>
         </span>
+        <div *ngIf="errorMessages.password" class="error-message">
+          {{ errorMessages.password }}
+        </div>
       </div>
 
       <div class="input-container">
         <label for="confirmPassword">Confirm Password:</label>
         <input id="confirmPassword" [(ngModel)]="confirmPassword" [type]="showConfirmPassword ? 'text' : 'password'"
-          placeholder="Confirm your password" class="custom-input password-input" />
+          placeholder="Confirm your password" class="custom-input password-input" required />
         <span class="eye-icon" (click)="togglePasswordVisibility('confirmPassword')">
           <ion-icon [name]="showConfirmPassword ? 'eye' : 'eye-off'" size="medium"></ion-icon>
         </span>
+        <div *ngIf="errorMessages.confirmPassword" class="error-message">
+          {{ errorMessages.confirmPassword }}
+        </div>
       </div>
 
       <!-- Custom button component -->
-      <app-custom-button text="Register" customClass="signInButton" (click)="onSignup()"></app-custom-button>
+      <app-custom-button text="{{ isLoading ? 'Creating Account...' : 'Register' }}" customClass="signInButton"
+        (click)="onSignup()"></app-custom-button>
 
     </ion-card>
 

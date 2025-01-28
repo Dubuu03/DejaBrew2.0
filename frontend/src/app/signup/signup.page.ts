@@ -17,6 +17,14 @@ export class SignupPage {
   showConfirmPassword: boolean = false;
   isLoading: boolean = false;  // For loader control
 
+  // Error messages for each field
+  errorMessages = {
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  };
+
   constructor(
     private router: Router, 
     private authService: AuthService, 
@@ -44,60 +52,90 @@ export class SignupPage {
   }
 
   // Show loader while waiting for the signup process
-async presentLoader() {
-  this.isLoading = true;
-  const loading = await this.loadingController.create({
-    message: 'Please wait...',
-    spinner: 'circles',  
-  });
-  await loading.present();
-  
-  return loading;  
-}
-
-onSignup() {
-  if (!this.username || !this.email || !this.password || !this.confirmPassword) {
-    this.showToast('All fields are required.', 'danger');
-    return;
-  }
-
-  if (this.password !== this.confirmPassword) {
-    this.showToast('Passwords do not match.', 'danger');
-    return;
-  }
-
-  const userData = {
-    username: this.username,
-    email: this.email,
-    password: this.password,
-  };
-
-  this.presentLoader().then((loading) => {
-    // Call signup method from AuthService
-    this.authService.signup(userData).subscribe({
-      next: (response: any) => {
-        console.log('Signup successful:', response);
-        this.showToast('Signup successful! Please log in.', 'success');
-        this.router.navigate(['/login']);
-        loading.dismiss();  
-      },
-      error: (error) => {
-        if (error.status===400){
-          this.showToast('Invalid email. Please enter a valid email.', 'danger');
-        }
-        else if(error.status===402){
-          this.showToast('Username already exists. Please choose another username.', 'danger');
-        }
-        else if(error.status === 409) {
-          this.showToast('Email already exists. Please choose another email.', 'danger');
-        } 
-        else{
-          console.error('Signup error:', error);
-          this.showToast('An error occurred during signup.', 'danger');
-        }
-        loading.dismiss(); 
-      },
+  async presentLoader() {
+    this.isLoading = true;
+    const loading = await this.loadingController.create({
+      message: 'Please wait...',
+      spinner: 'circles',  
     });
-  });
-}
+    await loading.present();
+    return loading;  
+  }
+
+  // Clear error messages before signup attempt
+  clearErrors() {
+    this.errorMessages = {
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    };
+  }
+
+  onSignup() {
+    this.clearErrors();  // Reset errors before new validation
+
+    // Validate inputs
+    let isValid = true;
+
+    if (!this.username) {
+      this.errorMessages.username = 'Username is required.';
+      isValid = false;
+    }
+
+    if (!this.email) {
+      this.errorMessages.email = 'Email is required.';
+      isValid = false;
+    }
+
+    if (!this.password) {
+      this.errorMessages.password = 'Password is required.';
+      isValid = false;
+    }
+
+    if (!this.confirmPassword) {
+      this.errorMessages.confirmPassword = 'Confirm password is required.';
+      isValid = false;
+    }
+
+    if (this.password !== this.confirmPassword) {
+      this.errorMessages.confirmPassword = 'Passwords do not match.';
+      isValid = false;
+    }
+
+    if (!isValid) {
+      return;
+    }
+
+    const userData = {
+      username: this.username,
+      email: this.email,
+      password: this.password,
+    };
+
+    this.presentLoader().then((loading) => {
+      // Call signup method from AuthService
+      this.authService.signup(userData).subscribe({
+        next: (response: any) => {
+          console.log('Signup successful:', response);
+          this.showToast('Signup successful! Please log in.', 'success');
+          this.router.navigate(['/login']);
+          loading.dismiss();  
+        },
+        error: (error) => {
+          if (error.status === 400) {
+            this.errorMessages.email = 'Invalid email. Please enter a valid email.';
+          } else if (error.status === 402) {
+            this.errorMessages.username = 'Username already exists. Please choose another username.';
+          } else if (error.status === 409) {
+            this.errorMessages.email = 'Email already exists. Please choose another email.';
+          } else {
+            console.error('Signup error:', error);
+            this.showToast('An error occurred during signup.', 'danger');
+          }
+          loading.dismiss(); 
+        },
+      });
+    });
+  }
 }

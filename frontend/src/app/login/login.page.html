@@ -13,30 +13,41 @@
     </h2>
 
     <ion-card class="card-padding">
-      <!-- Input Fields -->
+      <!-- Email Input Field -->
       <div class="input-container">
-        <label for="username">Username:</label>
-        <input id="username" type="text" placeholder="Enter your username" class="custom-input username-input"
-          [(ngModel)]="username" name="username" />
+        <label for="email">Email:</label>
+        <input id="email" type="email" placeholder="Enter your email" class="custom-input email-input"
+          [(ngModel)]="credentials.email" name="email" #emailInput="ngModel" required email />
+        <small class="error-message" *ngIf="emailError">
+          {{ emailError }}
+        </small>
       </div>
 
+      <!-- Password Input Field -->
       <div class="input-container">
         <label for="password">Password:</label>
         <input id="password" [type]="showPassword ? 'text' : 'password'" placeholder="Enter your password"
-          class="custom-input password-input" [(ngModel)]="password" name="password" />
+          class="custom-input password-input" [(ngModel)]="credentials.password" name="password"
+          #passwordInput="ngModel" required />
         <span class="eye-icon" (click)="togglePasswordVisibility()">
           <ion-icon [name]="showPassword ? 'eye' : 'eye-off'" size="medium"></ion-icon>
         </span>
+        <small class="error-message" *ngIf="passwordError">
+          {{ passwordError }}
+        </small>
       </div>
 
-      <p id="message"></p>
+      <p id="message" [class.error]="isError" [class.success]="!isError" *ngIf="message">
+        {{ message }}
+      </p>
 
       <div class="forgot-password">
-        <a href="#" class="forgot-password">Forgot Password?</a>
+        <a routerLink="/forgot-password" class="forgot-password">Forgot Password?</a>
       </div>
 
       <!-- Custom Button Component -->
-      <app-custom-button text="Sign In" customClass="signInButton" (click)="proceed()"></app-custom-button>
+      <app-custom-button text="Sign In" customClass="signInButton"
+        (click)="proceed()"></app-custom-button>
 
       <div class="or-section">
         <p>or</p>
@@ -53,7 +64,8 @@
   </div>
 
   <!-- Modal -->
-  <div *ngIf="isModalVisible" class="modal-container">
+  <div class="modal-overlay" *ngIf="isModalVisible" (click)="dismissModal()"></div>
+  <div class="modal-container" *ngIf="isModalVisible">
     <div class="modal-content">
       <div class="modal-logo">
         <ion-icon [name]="platformLogo" [style.color]="platformColor" class="logomodal"></ion-icon>
@@ -66,9 +78,9 @@
 
       <div class="modal-buttons">
         <ion-button expand="block" fill="outline" (click)="dismissModal()">Cancel</ion-button>
-        <app-custom-button text="Continue" customClass="signInButton" (click)="proceed()"></app-custom-button>
+        <app-custom-button text="Continue" customClass="signInButton"
+          (click)="socialLogin(platform)"></app-custom-button>
       </div>
     </div>
   </div>
-
 </ion-content>
