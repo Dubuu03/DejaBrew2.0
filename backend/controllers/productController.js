@@ -3,7 +3,7 @@ const Product = require('../models/productModel'); // Adjust the path as needed
 // Create a new product
 exports.createProduct = async (req, res) => {
     try {
-        const { productName, type, price, description, image, detailsImage } = req.body;
+        const { productName, type, price, description, image, detailsImage, quantity } = req.body;
 
         const product = new Product({
             productName,
@@ -11,7 +11,8 @@ exports.createProduct = async (req, res) => {
             price,
             description,
             image,
-            detailsImage, 
+            detailsImage,
+            quantity: quantity || 0
         });
         await product.save();
 
@@ -67,7 +68,7 @@ exports.getProductById = async (req, res) => {
 // Update product by ID
 exports.updateProduct = async (req, res) => {
     const { id } = req.params;
-    const { productName, type, price, description, image, detailsImage } = req.body;
+    const { productName, type, price, description, image, detailsImage, quantity } = req.body;
 
     try {
         const product = await Product.findById(id);
@@ -80,8 +81,10 @@ exports.updateProduct = async (req, res) => {
         product.type = type || product.type;
         product.price = price || product.price;
         product.description = description || product.description;
-        product.image = image || product.image; 
-        product.detailsImage = detailsImage || product.detailsImage; 
+        product.image = image || product.image;
+        product.detailsImage = detailsImage || product.detailsImage;
+        product.quantity = quantity || product.quantity;
+
 
         // Save updated product
         await product.save();
@@ -116,4 +119,55 @@ exports.deleteProduct = async (req, res) => {
     }
 };
 
+// Update stock for a product
+exports.updateStock = async (req, res) => {
+    try {
+        const { quantity } = req.body;
+        const { productId } = req.params;  // Retrieve productId from params
 
+        if (!productId || quantity === undefined) {
+            return res.status(400).json({ message: 'Product ID and quantity are required' });
+        }
+
+        // Find the product by productId
+        const product = await Product.findById(productId);
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+
+        // Update stock quantity
+        product.quantity = quantity;
+        await product.save();
+
+        // Return updated product information (stock quantity)
+        return res.status(200).json({
+            message: 'Stock updated successfully',
+            productId: product._id,
+            updatedQuantity: product.quantity
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Error updating stock' });
+    }
+};
+
+// Get current stock for a product
+exports.getStock = async (req, res) => {
+    try {
+        const { productId } = req.params;
+
+        if (!productId) {
+            return res.status(400).json({ message: 'Product ID is required' });
+        }
+
+        const product = await Product.findById(productId);
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+
+        return res.status(200).json({ stock: product.quantity });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Error retrieving stock' });
+    }
+};

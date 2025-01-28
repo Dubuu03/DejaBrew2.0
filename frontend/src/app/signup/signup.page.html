@@ -43,7 +43,6 @@
           {{ errorMessages.password }}
         </div>
       </div>
-
       <div class="input-container">
         <label for="confirmPassword">Confirm Password:</label>
         <input id="confirmPassword" [(ngModel)]="confirmPassword" [type]="showConfirmPassword ? 'text' : 'password'"
@@ -55,6 +54,7 @@
           {{ errorMessages.confirmPassword }}
         </div>
       </div>
+
 
       <!-- Custom button component -->
       <app-custom-button text="{{ isLoading ? 'Creating Account...' : 'Register' }}" customClass="signInButton"

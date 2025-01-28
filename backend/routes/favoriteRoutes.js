@@ -4,9 +4,9 @@ const { toggleFavorite, getFavorites } = require('../controllers/favoriteControl
 const authMiddleware = require('../middleware/authMiddleware');  // Import the auth middleware
 
 // Route to toggle product favorite with authentication
-router.post('/toggle', authMiddleware, toggleFavorite);
+router.post('/toggle', authMiddleware.verifySession, toggleFavorite);
 
 // Route to get favorites with authentication
-router.get('/', authMiddleware, getFavorites);
+router.get('/', authMiddleware.verifySession, getFavorites);
 
 module.exports = router;

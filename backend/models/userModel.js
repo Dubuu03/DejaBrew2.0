@@ -19,12 +19,12 @@ const userSchema = new mongoose.Schema({
     },
     favorites: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product' 
+        ref: 'Product'
     }],
     cart: [{
         productId: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Product' 
+            ref: 'Product'
         },
         quantity: {
             type: Number,
@@ -35,6 +35,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ['user', 'admin', 'moderator'],
         default: 'user'
+    },
+    profilePicture: {
+        type: String,
+        default: ''  
     }
 }, {
     timestamps: true

@@ -3,10 +3,12 @@ const cors = require('cors');
 const session = require('express-session'); // <-- Import express-session here
 const connectDB = require('./config/db');
 require('dotenv').config();
-const userRoutes = require('./routes/authRoutes');
+const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
 const ratingRoutes = require('./routes/ratingRoutes');
 const favoriteRoutes = require('./routes/favoriteRoutes');
+const userRoutes = require('./routes/userRoutes');
+
 
 const app = express();
 
@@ -48,10 +50,11 @@ app.get('/', (req, res) => {
 });
 
 // Use routes
-app.use('/', userRoutes);
+app.use('/api', authRoutes);
 app.use('/api', productRoutes);
 app.use('/api', ratingRoutes);
 app.use('/api/favorites', favoriteRoutes);
+app.use('/api/users', userRoutes);
 
 // MongoDB Connection
 connectDB();

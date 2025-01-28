@@ -23,11 +23,11 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   signup(userData: { email: string, username: string, password: string }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/signup`, userData, { withCredentials: true });
+    return this.http.post(`${this.apiUrl}/api/signup`, userData, { withCredentials: true });
   }
 
   login(userData: { email: string, password: string }): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, userData, { withCredentials: true })
+    return this.http.post<LoginResponse>(`${this.apiUrl}/api/login`, userData, { withCredentials: true })
       .pipe(
         tap(response => {
           sessionStorage.setItem(this.SESSION_KEY, JSON.stringify(response.user));

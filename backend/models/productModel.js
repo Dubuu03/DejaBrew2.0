@@ -39,7 +39,11 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    ratings: [ratingSchema] // Embedding the rating schema
+    ratings: [ratingSchema],
+    quantity: {
+        type: Number,
+        default: 0
+    }
 }, {
     timestamps: true
 });

@@ -15,6 +15,7 @@ ion-content {
 }
 
 ion-icon.btnBack {
+    margin: 0;
     padding: 10px;
     cursor: pointer;
 }
@@ -46,7 +47,7 @@ a {
     text-align: left;
     width: 100%;
     max-width: 100%;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .custom-input {
@@ -82,7 +83,7 @@ a {
 
 .eye-icon {
     position: absolute;
-    margin-top: 7%;
+    margin-top: 12%;
     right: 15px;
     cursor: pointer;
     z-index: 5;
